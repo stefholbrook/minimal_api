@@ -25,7 +25,7 @@ defmodule MinimalApi.Router do
     name =
       case conn.body_params do
       %{"name" => a_name } -> a_name
-      _ -> ""
+      _ -> "Turn down for what!?!"
     end
 
     response = %{"id" => 1, "name" => name}
