@@ -8,10 +8,15 @@ defmodule MinimalApi.Router do
   import Plug.Conn
 
   plug(:match)
-  plug Plug.Parsers, parsers: [:json],
+  plug Plug.Parsers, parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
                      pass: ["application/json"],
-                     json_decoder: Poison # use Jason? ¯\_(ツ)_/¯
+                     json_decoder: Jason
+
+
+  plug Absinthe.Plug, schema: MinimalApi.Schema
   plug(:dispatch)
+
+  forward "/graphiql", to: Absinthe.Plug.GraphiQL, init_opts: [schema: MinimalApi.Schema]
 
   get "/hello" do
     send_resp(conn, 200, "hello #{Map.get(conn.query_params, "name")}")
@@ -29,6 +34,6 @@ defmodule MinimalApi.Router do
     end
 
     response = %{"id" => 1, "name" => name}
-    send_resp(conn |> put_resp_content_type("application/json"), 200, Poison.encode!(response))
+    send_resp(conn |> put_resp_content_type("application/json"), 200, Jason.encode!(response))
   end
 end

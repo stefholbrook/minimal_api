@@ -22,6 +22,9 @@ defmodule MinimalApi.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:absinthe, "~> 1.5.0"},
+      {:absinthe_plug, "~> 1.5"},
+      {:jason, "~> 1.0"},
       {:poison, "~> 3.0"},
       {:plug_cowboy, "~> 2.0"},
       {:cowboy, "~> 2.4"}
